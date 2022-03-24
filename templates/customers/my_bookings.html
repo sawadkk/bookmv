@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}My Bookings{% endblock %}
+{% block body %}
+
+
+    <!-- ==========Banner-Section========== -->
+    <section class="details-banner hero-area bg_img" data-background="{% static 'assets/images/banner/banner03.jpg' %}">
+        <div class="container">
+            <div class="details-banner-wrapper">
+                <div class="details-banner-content">
+                    <h3 class="title">My Bookings</h3>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Banner-Section========== -->
+    <div class="container">
+        <div>
+            <h3>Pendings</h3>
+        {% for booking in booking %}
+        {% if booking.status == 'Pending' %}
+            <P>{{booking.show.movie.movie_name}}-{{booking.show.date}}/{{booking.show.play_time}}({{booking.status}})</P>
+        {% endif %}
+        {% endfor %}
+        </div>
+        <div>
+            <h3>Today</h3>
+            {{today}}
+            {% for booking in booking %}
+            {% if booking.show.date == today  %}
+            <P>{{booking.show.movie.movie_name}}-{{booking.show.date}}/{{booking.show.play_time}}({{booking.status}})</P>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div>
+            <h3>History</h3>
+            {% for booking in booking %}
+            {% if booking.show.date != today and booking.status != 'Pending' %}
+            <P>{{booking.show.movie.movie_name}}-{{booking.show.date}}/{{booking.show.play_time}}({{booking.status}})</P>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

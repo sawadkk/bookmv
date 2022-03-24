@@ -1,0 +1,9 @@
+{% load notifications_tags %}
+{% load static %}
+<script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
+{% register_notify_callbacks callbacks='fill_notification_list,fill_notification_badge' %}
+
+
+
+<h1>{% live_notify_badge %}</h1>
+</p>{% live_notify_list %}</p>

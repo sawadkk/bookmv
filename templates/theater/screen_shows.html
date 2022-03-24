@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}screen shows{% endblock %}
+{% block body %}
+
+<!-- ==========Banner-Section========== -->
+    <section class="main-page-header speaker-banner bg_img" data-background="{% static 'assets/images/banner/banner07.jpg' %}">
+        <div class="container">
+            <div class="speaker-banner-content">
+                {% if show %}
+                <h2 class="title">{{show.screen.screen_name}} shows</h2>
+                {% endif %}
+                    
+                
+            </div>
+        </div>
+    </section>
+    <!-- ==========Banner-Section========== -->
+
+    <div class="row justify-content-center mb-30-none">
+        {% for show in show %}
+                <div class="col-sm-6 col-md-4">
+                    <div class="sports-ticket">
+                        <span class="cate">{{show.pk}}</span>
+                        <h2 class="ticket-title"><sup>{{show.play_time}}</h2>
+                        <p>Seats booked: <span>{{show.approved_requests}}/{{show.screen.seating_capacity}}</span></p>
+                        <p>pending requests: {{show.pending_requests}} <span></span></p>
+                        <p>show satus: {{show.screen.satus}} <span></span></p>
+                        <div>
+                        <a href="{% url 'booking_requests' show.pk %}" class="custom-button">booking requests</a>
+                    </div>
+                    <br>
+                    <div>
+                        <a href="{% url 'update_show' show.pk %}" class="custom-button">Update show</a>
+                    </div>
+                    <br>
+                    <div>
+                        <a href="{% url 'show_delete' show.pk %}" class="custom-button">delete show</a>
+                    </div>
+                    </div>
+                </div>
+         {% endfor %}       
+                
+
+
+
+{% endblock %}

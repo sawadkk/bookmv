@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}index{% endblock %}
+{% load static %}
+{% block body %}
+
+
+    <!-- ==========Banner-Section========== -->
+    <section class="banner-section">
+        <div class="banner-bg bg_img bg-fixed" data-background="{% static 'assets/images/banner/banner01.jpg' %}"></div>
+        <div class="container">
+            <div class="banner-content">
+                <h1 class="title  cd-headline clip"><span class="d-block">book your</span> tickets for 
+                    <span class="color-theme cd-words-wrapper p-0 m-0">
+                        <b class="is-visible">Movie</b>
+                        <b>Movie</b>
+                        <b>Movie</b>
+                    </span>
+                </h1>
+                <p>Safe, secure, reliable ticketing.Your ticket to live entertainment!</p>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Banner-Section========== -->
+
+    
+
+<div class="tab-area">
+                            <div class="tab-item active">
+                                <div class="row mb-10 justify-content-center">
+                            {% if show %}
+                            {% for show in show %}
+                                    <div class="col-sm-6 col-lg-4">
+                                        <div class="movie-grid">
+                                            <div class="movie-thumb c-thumb">
+                                                <a href="{% url 'movie_details' show.movie.pk %}">
+                                                    <img src="{{show.movie.poster_image.url}}" alt="movie">
+                                                </a>
+                                            </div>
+                                            <div class="movie-content bg-one">
+                                                <h5 class="title m-0">
+                                                    <a href="{% url 'movie_details' show.movie.pk %}">{{show.movie.movie_name}}</a>
+                                                </h5>
+                                                <ul class="movie-rating-percent">
+                                                    <li>
+                                                        <div class="thumb">
+                                                            <img src="{% static 'assets/images/movie/tomato.png' %}" alt="movie">
+                                                        </div>
+                                                        <span class="content">88%</span>
+                                                    </li>
+                                                    <li>
+                                                        <div class="thumb">
+                                                            <img src="{% static 'assets/images/movie/cake.png' %}" alt="movie">
+                                                        </div>
+                                                        <span class="content">88%</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+{% endblock %}

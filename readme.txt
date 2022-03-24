@@ -1,0 +1,1 @@
+ngnix and gunciorn enabled working

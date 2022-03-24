@@ -1,0 +1,14 @@
+payment success
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+	$(document).ready(function(){
+		//catch the form submit event
+		$('#id_username').keyup(function(){
+			//create an ajax call
+			$.ajax({
+				url: "{% url 'my_bookings' %}"
+			})
+		})
+	})
+</script>

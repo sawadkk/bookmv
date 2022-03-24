@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Ticket Plan{% endblock %}
+{% block body %}
+
+   <!-- ==========Banner-Section========== -->
+   {% for show in shows %}
+    <section class="details-banner hero-area bg_img seat-plan-banner" data-background="{{show.movie.poster_image.url}}">
+        <div class="container">
+            <div class="details-banner-wrapper">
+                <div class="details-banner-content style-two">
+                    <h3 class="title">{{show.movie.movie_name}}</h3>
+                    <div class="tags">
+                        <a href="#0">{{show.movie.screen.theater.location}}</a>
+                        <a href="#0">English - 2D</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endfor %}
+    <!-- ==========Banner-Section========== -->
+
+    <!-- ==========Page-Title========== -->
+    <section class="page-title bg-one">
+        <div class="container">
+            <div class="page-title-area">
+                <div class="item md-order-1">
+                    <a href="movie-ticket-plan.html" class="custom-button back-button">
+                        <i class="flaticon-double-right-arrows-angles"></i>back
+                    </a>
+                </div>
+                {% for show in shows %}
+                <div class="item date-item">
+                    <span class="date">{{show.date}}</span>
+                    <select class="select-bar">
+                        <option value="sc1">{{show.play_time}}</option>
+                    </select>
+                </div>
+                {% endfor %}
+                <div class="item">
+                    <h5 class="title">05:00</h5>
+                    <p>Mins Left</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Page-Title========== -->
+
+    <!-- ==========Movie-Section========== -->
+    <div class="seat-plan-section padding-bottom padding-top">
+        <div class="container">
+            <div class="screen-area">
+                <h4 class="screen">screen</h4>
+                <div class="screen-thumb">
+                    <img src="{% static 'assets/images/movie/screen-thumb.png' %}" alt="movie">
+                </div>
+
+
+                <h5 class="subtitle">silver plus</h5>
+                <form action="" method="POST">
+
+                <div class="screen-wrapper">
+                    <ul class="seat-area">
+                        <li class="seat-line">
+                            <span>A</span>
+                            <ul class="seat--area">
+                                <li class="front-seat">
+                                    <ul>
+                                    {% for seat in seat %}
+
+                                        {% if seat|divisibleby:15 %}
+
+                                                {% if seat in book  %}
+
+                                                <li class="single-seat">
+                                                    <img src="{% static 'assets/images/movie/seat01.png' %}" alt="seat">
+                                                </li>
+
+                                                {% else %}
+                                    
+                                       
+                                                <li class="single-seat seat-free" name="">
+                                                <img src="{% static 'assets/images/movie/seat.png' %}" alt="seat">
+                                                <span class="sit-num" name="check" id="seat">{{seat}}</span>
+                                                
+                                                {% endif %}
+
+                                        </li></ul></li></ul></li></ul></div>
+                    <div class="screen-wrapper">
+                    <ul class="seat-area">
+                        <li class="seat-line">
+                            <span>A</span>
+                            <ul class="seat--area">
+                                <li class="front-seat">
+                                    <ul>
+
+                                        {% else %}
+
+                                                {% if seat in book  %}
+
+                                                <li class="single-seat">
+                                                    <img src="{% static 'assets/images/movie/seat01.png' %}" alt="seat">
+                                                </li>
+
+                                                {% else %}
+                                    
+                                       
+                                                <li class="single-seat seat-free" name="">
+                                                <img src="{% static 'assets/images/movie/seat.png' %}" alt="seat">
+                                                <span class="sit-num" name="check" id="seat">{{seat}}</span>
+
+                                                {% endif %}
+                                        {% endif %}
+                                    {% endfor %}                
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                </form>
+
+            </div>
+            <div class="proceed-book bg_img" data-background="{% static 'assets/images/movie/movie-bg-proceed.jpg' %}">
+                <div class="proceed-to-book">
+                    <div class="book-item">
+                       <h5 class="title">You have Choosed Seat :</h5>
+                       <form action="{% url 'booking' %}" method="POST">
+                        {% csrf_token %} 
+                        <span id="slots" name="s"></span>
+                        <input type="hidden" name="seats" value="" id="input">
+                        {% for show in shows %}
+                        <input type="hidden" name="show_id" value="{{show.pk}}">
+                        <input type="hidden" name="price" value="{{show.screen.entry_fee}}">
+                        {% endfor %}
+                        <h3 class="title"></h3>
+                    </div>
+                    <div class="book-item">
+                        <span>total price</span>
+                        <h3 class="title">$150</h3>
+                    </div>
+                    <div class="book-item">
+                        <button type="submit" class="custom-button" id="pay-btn">proceed</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ==========Movie-Section========== -->
+{% endblock %}
+
+{% block JQuery %}
+
+<script type="text/javascript">
+  var book = 0;
+  var s = [];
+  var t = '';
+  var leng = 0;
+    $(".seat-free img").on('click', function(e) {
+    
+      if(book == 0) {
+        $(this).attr("src","./static/assets/images/movie/seat.png");
+        book = 1;
+        t = $(this).closest("li").find ("span.sit-num").text()
+        if ($.inArray(t, s) >= 0) {
+            s.splice($.inArray(t, s),1);
+         
+      
+    }else {
+      
+    }
+        leng = s.length;
+        
+        $("#slots").text(s)
+        $('#input').val(s);
+        
+
+
+      }
+      else if(book == 1 && leng <= 3) {
+
+
+        $(this).attr("src","./static/assets/images/movie/seat01-booked.png");
+         book = 0;
+        t = $(this).closest("li").find ("span.sit-num").text()
+
+        if ($.inArray(t, s) >= 0) {
+           
+        }else{
+            s.push(t);
+            leng = s.length;
+            
+        }
+
+
+        $("#slots").text(s)
+
+        $('#input').val(s);
+
+        
+      }else{
+        alert('oops only 4 bookings allowed per user in a show')
+        book = 0;
+      }
+    });
+    
+</script>
+
+{% endblock %}

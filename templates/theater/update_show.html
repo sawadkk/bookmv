@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}add_screen{% endblock %}
+{% block body %}
+<!-- ==========Banner-Section========== -->
+    <section class="main-page-header speaker-banner bg_img" data-background="{% static 'assets/images/banner/banner07.jpg' %}">
+        <div class="container">
+            <div class="speaker-banner-content">
+                <h2 class="title">update_screen</h2>
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="index.html">
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        about us
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- ==========Banner-Section========== -->
+{% for item in item %}
+<form method="post" action="{% url 'update_show' item.pk %}">
+ {% endfor %} 
+  {% csrf_token %}
+
+  {{ form.as_p }}
+  <button type="submit">Add screen</button>
+</form>
+
+{% endblock %}

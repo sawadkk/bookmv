@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}booking requests{% endblock %}
+{% block body %}
+
+<!-- ==========Banner-Section========== -->
+    <section class="main-page-header speaker-banner bg_img" data-background="{% static 'assets/images/banner/banner07.jpg' %}">
+        <div class="container">
+            <div class="speaker-banner-content">
+                <h2 class="title">booking requests</h2>
+                    
+                
+            </div>
+        </div>
+    </section>
+    <!-- ==========Banner-Section========== -->
+    <div class="blog-author">
+    	{% for booking_requests in booking_requests %}
+                            <div class="author-content">
+                                <h5 class="title">
+                                    <a href="#0">
+                                        {{booking_requests.show.play_time}}
+                                    </a>
+                                </h5>
+                                <p>{{booking_requests.show.movie.movie_name}}</p>
+                                <p>{{booking_requests.pk}}</p>
+                                <div>
+                        <a href="{% url 'accept_booking' booking_requests.pk %}" class="custom-button">accept</a>
+                    </div>
+                    <br>
+                     <div>
+                        <a href="{% url 'reject_booking' booking_requests.pk %}" class="custom-button">reject</a>
+                    </div>
+                            </div>
+           {% endfor %}
+                        </div>
+
+{% endblock %}

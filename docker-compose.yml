@@ -1,0 +1,77 @@
+version: "3.8"
+
+services:
+   book_my_movie:
+    build: .
+    command: bash -c "python manage.py collectstatic --no-input && python manage.py makemigrations && python manage.py migrate && gunicorn book_my_movie.wsgi -b 0.0.0.0:8000"
+    volumes:
+      - static:/app/static
+      - media:/app/media
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+    env_file:
+      - .env
+    networks:
+      - django-network
+    depends_on:
+      - bmv_pgdbtest
+      - redis
+
+   nginx:
+     build: nginx
+     restart: always
+     volumes:
+       - static:/static
+       - media:/media
+     ports:
+       - "80:80"
+     depends_on:
+       - book_my_movie
+     networks:
+       - django-network
+
+   celery:
+    restart: always
+    build: .
+    volumes:
+      - .:/app
+    networks:
+      - django-network
+    depends_on:
+      - bmv_pgdbtest
+      - redis
+      - book_my_movie
+   
+   bmv_pgdbtest:
+    image : postgres
+    container_name: bmv_pgdbtest
+    environment:
+     - "POSTGRES_HOST_AUTH_METHOD=trust"
+     - POSTGRES_DB=postgres
+     - POSTGRES_USER=postgres
+     - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgtestdata:/var/lib/postgres/testdata/
+    networks:
+      - django-network
+   
+   redis:
+    image : "redis:alpine"
+    ports:
+      - "6379:6379"
+    volumes:
+      - redistestdata:/testdata
+    networks:
+      - django-network
+
+networks:
+  django-network:
+    name: django-network
+
+volumes:
+  pgtestdata:
+  redistestdata:
+  static:
+  media:

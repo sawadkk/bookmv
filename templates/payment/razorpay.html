@@ -1,0 +1,47 @@
+    <!-- ==========Movie-Section========== -->
+    <section class="movie-section padding-top padding-bottom">
+        <div class="container">
+            <div class="tab">
+                <div class="section-header-2">
+                    <div class="left">
+                        <h2 class="title">movies</h2>
+                        <p>Be sure not to miss these Movies today.</p>
+                    </div>
+                    <ul class="tab-menu">
+                        <li class="active">
+                            now showing 
+                        </li>
+                        <li>
+                            coming soon
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-area mb-30-none">
+                    <div class="tab-item active">
+                        <div class="owl-carousel owl-theme tab-slider">
+                            
+                            {% if movies %}
+                            {% for movie in movies %}
+                            <div class="item">
+                                <div class="movie-grid">
+                                    <div class="movie-thumb c-thumb">
+                                        <a href="{% url 'movie_details' movie.pk %}">
+                                            <img src="{{movie.poster_image.url}}" alt="movie">
+                                        </a>
+                                    </div>
+                                    <div class="movie-content bg-one">
+                                        <h5 class="title m-0">
+                                            <a href="{% url 'movie_details' movie.pk %}">{{movie.movie_name}}</a>
+                                        </h5>
+                                    </div>
+                                </div> 
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Movie-Section========== -->
